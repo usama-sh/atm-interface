@@ -1,27 +1,36 @@
-<project name="atminterface" default="build" basedir=".">
-
-    <property name="src.dir" value="src" />
-    <property name="build.dir" value="build" />
-    <property name="dist.dir" value="dist" />
-
-    <target name="init">
-        <mkdir dir="${build.dir}" />
-        <mkdir dir="${dist.dir}" />
-    </target>
-
-    <target name="compile" depends="init">
-        <javac srcdir="${src.dir}" destdir="${build.dir}" />
-    </target>
-
-    <target name="jar" depends="compile">
-        <jar destfile="${dist.dir}/atminterface.jar" basedir="${build.dir}" />
-    </target>
-
-    <target name="clean">
-        <delete dir="${build.dir}" />
-        <delete dir="${dist.dir}" />
-    </target>
-
-    <target name="build" depends="clean,jar" />
-
+<project name="ATMInterface" default="run" basedir=".">
+  
+  <!-- Set properties -->
+  <property name="src.dir" value="src" />
+  <property name="build.dir" value="build" />
+  <property name="dist.dir" value="dist" />
+  <property name="main.class" value="atminterface.atmInterface" />
+  
+  <!-- Clean target -->
+  <target name="clean">
+    <delete dir="${build.dir}" />
+    <delete dir="${dist.dir}" />
+  </target>
+  
+  <!-- Compile target -->
+  <target name="compile" depends="clean">
+    <mkdir dir="${build.dir}" />
+    <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false" />
+  </target>
+  
+  <!-- Create JAR target -->
+  <target name="jar" depends="compile">
+    <mkdir dir="${dist.dir}" />
+    <jar destfile="${dist.dir}/ATMInterface.jar" basedir="${build.dir}">
+      <manifest>
+        <attribute name="Main-Class" value="${main.class}" />
+      </manifest>
+    </jar>
+  </target>
+  
+  <!-- Run target -->
+  <target name="run" depends="jar">
+    <java jar="${dist.dir}/ATMInterface.jar" fork="true" />
+  </target>
+  
 </project>

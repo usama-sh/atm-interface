@@ -1,4 +1,4 @@
-package src;
+package atminterface;
 
 import java.util.Scanner;
 
